@@ -1,10 +1,10 @@
-const mongoose = require('moongoose');
+const mongoose = require('mongoose');
 
 const dbString = "mongodb+srv://admin:FRL8e86CHET20Xfl@cluster0.sgf6vcz.mongodb.net/money-magnet-db";
 
-mongoose.connect(dbString, () => {
-    console.log("db connected");
-});
+mongoose.connect(dbString)
+        .then(() => console.log("connected sucessfully to db"))
+        .catch((err) => console.log(err));
 
 const userSchema = new mongoose.Schema({
     username: {
