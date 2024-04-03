@@ -21,6 +21,7 @@ const transferBody = zod.object({
     to: zod.string(),
     amount: zod.number(),
 })
+
 router.post('/transfer', authMiddleWare, async (req, res) => {
     const { success } = transferBody.safeParse(req.body);
 
@@ -40,8 +41,9 @@ router.post('/transfer', authMiddleWare, async (req, res) => {
             message: "Insufficient balance"
         })
     }
-    const toAccount = await accountModel.findOne({
-        userId: to
+    
+    const toAccount = await userModel.findOne({
+        username: to
     });
 
     if(!toAccount){
@@ -59,12 +61,16 @@ router.post('/transfer', authMiddleWare, async (req, res) => {
     });
 
     await accountModel.updateOne({
-        userId: to,
+        userId: toAccount._id,
     }, {
         $inc: {
             balance: amount
         }
     });
+
+    res.json({
+        message: "Transfer successfull"
+    })
 })
 
 module.exports = router;
