@@ -1,35 +1,51 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const SignupForm = () => {
 
+    const navigate = useNavigate();
     const initalValues = {
         firstName: "",
         lastName: "",
         email: "",
         password: ""
     }
-    
     const [formValues, setFormValues] = useState(initalValues);
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormValues((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    }
     
     async function handleSignup(){
-        console.log(formValues);
-        // const requestBody = {
-        //     username: formValues.email,
-        //     firstName: formValues.firstName,
-        //     lastName: formValues.lastName,
-        //     password: formValues.password
-        // }
+        const requestBody = {
+            username: formValues.email,
+            firstName: formValues.firstName,
+            lastName: formValues.lastName,
+            password: formValues.password
+        }
 
-        // const response = await fetch("http://localhost:3000/api/v1/user/signup", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(requestBody),
-        // })
+        const stringBody = JSON.stringify(requestBody);
+        const response = await fetch("http://localhost:3000/api/v1/user/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: stringBody,
+        })
 
-        // const data = await response.json();
-        // console.log(data);
+        const data = await response.json();
+        const statusCode = response.status;
+
+        if(statusCode === 200){
+            navigate('/signin')
+        }
+        else{
+            alert(data.message);
+        }
+        console.log(data);
     }
 
     console.log(formValues);
@@ -40,27 +56,46 @@ const SignupForm = () => {
                 <label>
                     First Name
                 </label>
-                <input placeholder="John" type="text" className="pl-1 placeholder:pl-2 py-1"
-                    value={formValues.firstName} onChange={(e) => setFormValues((...prev) => prev.firstName = e.target.value)}>
-                </input>
+                <input 
+                    placeholder="John" 
+                    type="text" 
+                    className="pl-1 placeholder:pl-2 py-1"
+                    name="firstName" 
+                    value={formValues.firstName} 
+                    onChange={handleInputChange}
+                />
                 <label>
                     Last Name
                 </label>
-                <input placeholder="Doe" type="text" className="pl-1 placeholder:pl-2 py-1"
-                    value={formValues.lastName} onChange={(e) => setFormValues((...prev) => prev.lastName = e.target.value)}>
-                </input>
+                <input 
+                    name="lastName"
+                    placeholder="Doe" 
+                    type="text" 
+                    className="pl-1 placeholder:pl-2 py-1"
+                    value={formValues.lastName} 
+                    onChange={handleInputChange}
+                />
                 <label>
                     Email
                 </label>
-                <input placeholder="johndoe@example.com" type="email" className="pl-1 placeholder:pl-2 py-1"
-                    value={formValues.email} onChange={(e) => setFormValues((...prev) => prev.email = e.target.value)}>
-                </input>
+                <input 
+                    name="email"
+                    placeholder="johndoe@example.com" 
+                    type="email" 
+                    className="pl-1 placeholder:pl-2 py-1"
+                    value={formValues.email} 
+                    onChange={handleInputChange}
+                />
                 <label>
                     Password
                 </label>
-                <input type="password" className="pl-1 placeholder:pl-2 py-1"
-                    value={formValues.password} onChange={(e) => setFormValues((prevState) => ({...prevState,}))}>
-                </input>
+                <input 
+                    name="password"
+                    type="password" 
+                    className="pl-1 placeholder:pl-2 py-1"
+                    value={formValues.password} 
+                    onChange={handleInputChange}
+                />
             </div>
             <button className="w-[90%] rounded-md bg-black text-white py-2 mb-4" onClick={handleSignup}>Sign Up</button>
         </>
