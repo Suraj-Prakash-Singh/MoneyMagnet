@@ -68,7 +68,7 @@ router.post('/signin', async (req, res) => {
 
     if(!success){
         return res.status(411).json({
-            message: "Incorrect inputs"
+            message: "Incorrect input format"
         })
     }
 
@@ -89,8 +89,8 @@ router.post('/signin', async (req, res) => {
     }
 
     res.status(411).json({
-        message: "Error while logging in"
-    }) 
+        message: "Wrong email/password"
+    }); 
 })
 
 const updateBody = zod.object({
