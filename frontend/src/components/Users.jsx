@@ -1,7 +1,7 @@
 const Users = ( {usersList, setShowModal} ) => {
-    const handleSendMoney = (user) => {
+    const handleSendMoneyModal = (user) => {
         setShowModal(true);
-        localStorage.setItem("receiverId", user._id);
+        localStorage.setItem("username", user.username);
         localStorage.setItem("firstName", user.firstName);
         localStorage.setItem("lastName", user.lastName);
     }
@@ -21,7 +21,7 @@ const Users = ( {usersList, setShowModal} ) => {
                             <div className="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center">{user?.firstName.charAt(0).toUpperCase()}</div>
                             <p>{user.firstName} {user.lastName}</p>
                         </div>
-                        <button className="bg-black text-white px-3 py-2 rounded-md" onClick={() => handleSendMoney(user)}>Send Money</button>
+                        <button className="bg-black text-white px-3 py-2 rounded-md" onClick={() => handleSendMoneyModal(user)}>Send Money</button>
                     </div>
                 )
             })}
