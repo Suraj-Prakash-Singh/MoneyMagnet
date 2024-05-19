@@ -19,11 +19,12 @@ router.get('/balance', authMiddleWare, async (req, res) => {
 })
 
 const transferBody = zod.object({
-    to: zod.string(),
+    to: zod.string().email(),
     amount: zod.number(),
 })
 
 router.post('/transfer', authMiddleWare, async (req, res) => {
+    console.log("transfer body: ", req.body);
     const { success } = transferBody.safeParse(req.body);
 
     if(!success){

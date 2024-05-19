@@ -11,7 +11,7 @@ const Dashboard = () => {
     useEffect(() => {
         getUserBalance();
         getUserList();
-    }, [])
+    }, [showModal])
 
     async function getUserBalance(){
         const response = await fetch(`http://localhost:3000/api/v1/account/balance`, {
