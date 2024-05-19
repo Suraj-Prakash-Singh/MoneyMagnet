@@ -10,11 +10,11 @@ const Signup = () => {
                 <h1 className="text-4xl font-bold mt-4">Sign Up</h1>
                 <p className="text-center my-2 font-medium text-gray-500">Enter your information to create an account</p>
                 <SignupForm />
-                <p className="mb-4 font-medium">Already have an account? 
+                <p className="mb-4 font-medium">Already have an account?&nbsp;
                     <span 
                         className="cursor-pointer underline" 
                         onClick={() => navigate('/signin')}>
-                             Login
+                            Login
                     </span>
                 </p>
             </div>

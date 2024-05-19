@@ -35,6 +35,8 @@ const Signin = () => {
         const statusCode = response.status;
 
         if(statusCode === 200){
+            const token = data?.token;
+            localStorage.setItem("token", token);
             navigate('/dashboard');
         }
         else{
@@ -82,7 +84,7 @@ const Signin = () => {
                         className="underline cursor-pointer"
                         onClick={() => navigate('/signup')}
                         >
-                             SignUp
+                            SignUp
                         </span>
                 </p>
             </div>

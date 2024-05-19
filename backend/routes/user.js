@@ -2,6 +2,7 @@ const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const { Router } = require('express');
 const { userModel, accountModel } = require("../db");
+const mongoose = require("mongoose");
 const { JWT_SECRET } = require("../config");
 const authMiddleware  = require("../middleware");
 
@@ -115,16 +116,10 @@ router.put('/', authMiddleware, async (req, res) => {
 })
 
 router.get('/bulk', authMiddleware, async (req, res) => {
-    const filter  = req.query.filter | "";
-
     
-    const users = await userModel.find({
-        $or: [{
-                firstName: {"$regex" : filter}
-            },{
-                lastName: {"$regex": filter}
-            }]
-    })
+    const objectIdToExclude = req.userId;
+
+    const users = await userModel.find({ _id: { $ne: new mongoose.Types.ObjectId(objectIdToExclude) } });
 
     res.json({
         users: users.map( user => ({
